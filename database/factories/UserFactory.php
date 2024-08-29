@@ -28,6 +28,9 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
+            // $password = $password ? $password : $Newpassword   //ternary operator
+            // $password = $password ?: $Newpassword //elvisoperator
+            // $password ??= $ Newpassword   //null coalescing operator
             'remember_token' => Str::random(10),
         ];
     }
