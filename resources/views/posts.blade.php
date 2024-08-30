@@ -11,7 +11,9 @@
   </div>
   
       <div class="text-base text-gray-500">
-        <a  href="/posts/{{$post['slug']}}" >{{$post['author']}} <br> {{$post -> created_at ->  format('l j F Y')}}</a>
+        <a  href="/authors/{{$post->author->id}}" class="hover:underline">{{$post->author->name}} </a>
+          
+        <a> {{$post -> created_at ->  format('l j F Y')}}</a>
       </div>
       <p class="my-4 font-light">{{ Str::limit($post['body'],150)}}</p>
       <a href="/posts/{{$post['slug']}}" class="font-medium text-blue-500 hover:underline" href="">Read more &raquo;</a>
