@@ -11,7 +11,7 @@
 
               <div>
                   <a href="/authors/{{$post->author->username}}" class="text-base text-gray-500 hover:underline italic">{{$post->author->name}} |</a>
-                  <a href="/categori" class="text-base text-gray-500 hover:underline italic">{{$post->author->name}}</a>
+                  <a href="/categories/{{$post->category->slug}}" class="text-base text-gray-500 hover:underline italic">{{$post->category->name}}</a>
                   <br>
                   <a>{{$post->created_at->format('l j F Y')}}</a>
               </div>
