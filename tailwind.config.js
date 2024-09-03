@@ -55,4 +55,7 @@ export default {
   plugins: [
     require('flowbite/plugin')
   ],
+  safelist: [
+    'bg-red-100', 'bg-yellow-100', 'bg-blue-100'
+  ]
 }

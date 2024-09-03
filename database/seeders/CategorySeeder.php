@@ -15,17 +15,20 @@ class CategorySeeder extends Seeder
     {
         Category::create([
             'name' => 'Agama',
-            'slug' => 'agama'
+            'slug' => 'agama',
+            'color' => 'red'
         ]);
         
         Category::create([
             'name' => 'Sosial Budaya',
-            'slug' => 'sosial-budaya'
+            'slug' => 'sosial-budaya',
+            'color' => 'yellow'
         ]);
-
+        
         Category::create([
             'name' => 'Politic',
-            'slug' => 'politic'
+            'slug' => 'politic',
+            'color' => 'blue'
         ]);
     }
 }
