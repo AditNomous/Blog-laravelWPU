@@ -5,9 +5,16 @@ use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use App\Models\Post;
 
+use function Laravel\Prompts\search;
+
 Route::get('/', function () {
+    return view('login');
+});
+
+Route::get('/home', function () {
     return view('home', ['title' => 'Home page']);
 });
+
 Route::get('welcome', function () {
     return view('welcome');
 });
@@ -21,7 +28,15 @@ Route::get('home', function () {
 });
 
 Route::get('/posts', function () {
-    return view('posts', ['title' => 'Blog', 'posts' => Post::all()]);
+    $posts = Post::latest();
+
+    if(request('search')){
+        $posts->where('title', 'like', '%' . request('search') . '%');
+    }
+
+    return view('posts', ['title' => 'Blog', 'posts' => $posts->get()]);
+
+
 });  
 
 Route::get('/posts/{post:slug}', function(Post $post){
