@@ -13,7 +13,7 @@
 <body>
   <h2 class="text-center mt-6 text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">new post</h2>
     <form action="" method="POST" class="ms-10">
-
+      @csrf
         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-6">
             <div class="sm:col-span-4">
               <label for="title" class="block text-sm font-medium leading-6 text-gray-900">Title</label>
