@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -10,6 +11,7 @@ use function Laravel\Prompts\search;
 Route::get('/', function () {
     return view('login');
 });
+
 
 Route::get('/home', function () {
     return view('home', ['title' => 'Home page']);
@@ -29,15 +31,13 @@ Route::get('home', function () {
 
 Route::get('/posts', function () {
    
-    return view('blog/posts', ['title' => 'Blog', 'posts' => Post::filter()->latest()->get()]);
-
-
+    return view('blog/posts', ['title' => 'Blog', 'posts' => Post::filter()->latest()->get()]);  
 });  
 
 Route::get('/posts/{post:slug}', function(Post $post){
 
-
-        return view('blog/post',['title' => 'Single Post', 'post' => $post]);
+    
+    return view('blog/post',['title' => 'Single Post', 'post' => $post]);
 });
 
 Route::get('/authors/{user:username}', function(User $user){
@@ -51,3 +51,10 @@ Route::get('/categories/{category:slug}', function(Category $category){
 Route::get('contact', function () {
     return view('contact', ['title' => 'contact']);
 });
+
+Route::get('/table', [PostController::class,'loadpost']);
+Route::get('/create', [PostController::class,'createpost']);
+Route::get('/create', [PostController::class,'loadcreatepost']);
+// Route::post('/create', [PostController::class,'createpost']);
+
+

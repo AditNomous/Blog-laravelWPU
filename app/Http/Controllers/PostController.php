@@ -2,11 +2,45 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Post;
 use Illuminate\Http\Request;
+
 
 class PostController extends Controller
 {
-    public function loadAllUser(){
-        return view('blog/createpost');
+    public function loadpost()
+    {
+        $posts = Post::all();
+        return view('blog/tablepost', compact('posts'));
+    }
+
+    public function loadcreatepost()
+    {
+        $categories = Category::all(); // Mengambil semua kategori
+        return view('blog/createpost', compact('categories'));
+    }
+
+    public function createpost(Request $request)
+    {
+        $request->validate([
+            'title' => 'required',
+            'author' => 'required',
+            'slug' => 'required',
+            'body' => 'required'
+        ]);
+
+        try {
+            $new_post = new Post;
+            $new_post->title = $request->title;
+            $new_post->author = $request->author;
+            $new_post->slug = $request->slug;
+            $new_post->body = $request->body;
+            $new_post->save();
+
+            return redirect('/blog/posts')->with('success', ' New Post Success');
+        } catch (\Exception $e) {
+            return redirect('/blog/createpost')->with('fail', $e->getMessage());
+        }
     }
 }
