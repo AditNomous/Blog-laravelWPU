@@ -55,6 +55,6 @@ Route::get('contact', function () {
 Route::get('/table', [PostController::class,'loadpost']);
 Route::get('/create', [PostController::class,'createpost']);
 Route::get('/create', [PostController::class,'loadcreatepost']);
-// Route::post('/create', [PostController::class,'createpost']);
+Route::post('/create', [PostController::class,'createpost'])->name('createpost');
 
 
