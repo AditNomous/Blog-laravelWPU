@@ -5,18 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Add New Post</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    @vite('resources/css/app.css', 'resources/js/app.js')
+    
 </head>
-<body>
-    <div class="container">
-        <div class="card mt-5">
-            <div class="card-header">Add New Post</div>
-            <div class="card-body">
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <div class="max-w-2xl mx-auto bg-white shadow-lg rounded-lg ">
+            <div class="bg-blue-500 text-white p-4 rounded-t-lg">Add New Post</div>
+            <div class="p-6">
                 <!-- Flash message for success or failure -->
                 @if (Session::has('fail'))
-                    <span class="alert alert-danger p-2">{{ Session::get('fail') }}</span>
+                    <div class="mb-4 p-3 bg-red-500 text-white rounded">{{ Session::get('fail') }}</div>
                 @elseif(Session::has('success'))
-                    <span class="alert alert-success p-2">{{ Session::get('success') }}</span>
+                    <div class="mb-4 p-3 bg-green-500 text-white rounded">{{ Session::get('success') }}</div>
                 @endif
                 
                 <!-- Form to add a new post -->
@@ -24,62 +25,55 @@
                     @csrf
                     
                     <!-- Title -->
-                    <div class="mb-3">
-                        <label for="title" class="form-label">Post Title</label>
-                        <input type="text" name="title" value="{{ old('title') }}" class="form-control" id="title" placeholder="Enter post title">
+                    <div class="mb-4">
+                        <label for="title" class="block text-gray-700 font-medium">Post Title</label>
+                        <input type="text" name="title" value="{{ old('title') }}" class="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500" id="title" placeholder="Enter post title">
                         @error('title')
-                            <span class="text-danger">{{ $message }}</span>
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
 
                     <!-- Author (User) Dropdown -->
-                    <div class="mb-3">
-                        <label for="author" class="form-label">Select Author</label>
-                        <select name="author" class="form-select" id="author">
+                    <div class="mb-4">
+                        <label for="author" class="block text-gray-700 font-medium">Select Author</label>
+                        <select name="author" class="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500" id="author">
                             <option value="" disabled selected>Choose author</option>
                             @foreach ($users as $user)
                                 <option value="{{ $user->id }}">{{ $user->name }}</option>
                             @endforeach
                         </select>
                         @error('author')
-                            <span class="text-danger">{{ $message }}</span>
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
 
                     <!-- Category Dropdown -->
-                    <div class="mb-3">
-                        <label for="category" class="form-label">Select Category</label>
-                        <select name="category" class="form-select" id="category">
+                    <div class="mb-4">
+                        <label for="category" class="block text-gray-700 font-medium">Select Category</label>
+                        <select name="category" class="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500" id="category">
                             <option value="" disabled selected>Choose category</option>
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach
                         </select>
                         @error('category')
-                            <span class="text-danger">{{ $message }}</span>
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
 
-                    <!-- Slug -->
-                    <div class="mb-3">
-                        <label for="slug" class="form-label">Slug</label>
-                        <input type="text" name="slug" value="{{ old('slug') }}" class="form-control" id="slug" placeholder="Enter slug (optional)">
-                        @error('slug')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
+                
 
                     <!-- Post Body -->
-                    <div class="mb-3">
-                        <label for="body" class="form-label">Post Content</label>
-                        <textarea name="body" class="form-control" id="body" rows="5" placeholder="Enter post content">{{ old('body') }}</textarea>
+                    <div class="mb-4">
+                        <label for="body" class="block text-gray-700 font-medium">Post Content</label>
+                        <textarea name="body" class="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500" id="body" rows="5" placeholder="Enter post content">{{ old('body') }}</textarea>
                         @error('body')
-                            <span class="text-danger">{{ $message }}</span>
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
 
                     <!-- Submit Button -->
-                    <button type="submit" class="btn btn-primary">Save Post</button>
+                    <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Save Post</button>
                 </form>
             </div>
         </div>

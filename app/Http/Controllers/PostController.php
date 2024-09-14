@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 
 class PostController extends Controller
@@ -29,7 +30,7 @@ class PostController extends Controller
             'title' => 'required',
             'author' => 'required',
             'category' => 'required',
-            'slug' => 'required|unique:posts',
+     
             'body' => 'required'
         ]);
 
@@ -38,7 +39,7 @@ class PostController extends Controller
             $new_post->title = $request->title;
             $new_post->author_id = $request->author; // Menyimpan ID author (penulis)
             $new_post->category_id = $request->category; // Menyimpan ID kategori
-            $new_post->slug = $request->slug;
+            $new_post->slug = Str::slug($request->input('title'), '-');
             $new_post->body = $request->body;
             $new_post->save();
 
