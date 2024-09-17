@@ -30,7 +30,6 @@ class PostController extends Controller
             'title' => 'required',
             'author' => 'required',
             'category' => 'required',
-     
             'body' => 'required'
         ]);
 
@@ -48,4 +47,51 @@ class PostController extends Controller
             return redirect('/createpost')->with('fail', $e->getMessage());
         }
     }
+    public function editpost(Request $request)
+    {
+        $request->validate([
+            'title' => 'required',
+            'category' => 'required',
+            'body' => 'required'
+        ]);
+
+        
+        try {
+            Post::where('id',$request->post_id)->update([
+                'title' => $request->title,
+                'category_id' => $request->category, // Update category_id
+                'body' => $request->body,
+                'slug' => Str::slug($request->input('title'), '-')
+            ]);
+            return redirect('/posts')->with('success', 'Post updated successfully!');
+        } catch (\Exception $e) {
+            return back()->with('fail', 'Failed to update post.');
+        }
+            
+
+
+       
+    }
+
+    public function loadeditpost($id){
+        $post = Post::find($id);
+        $users = User::all();
+        $categories = Category::all();
+
+    
+    
+    return view('blog/editpost', compact('post', 'users', 'categories'));
+
+    }
+
+
+
+    public function deletepost($id){
+    try {
+        Post::where('id',$id)->delete();
+        return redirect('/posts');
+    } catch (\Exception $e){
+        return redirect(('/posts'));
+    }
+}
 }

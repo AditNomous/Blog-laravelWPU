@@ -1,6 +1,5 @@
 <x-layout>
     <x-slot:title>{{ $title }}</x-slot:title>
-    <h3 class="text-xl">ini adalah blog</h3>
    
     <article class="py-8 max-w-screen-md" >
       <h2 class="mb-1 text-3xl font-bold text-gray-900">{{$post['title']}}</h2>

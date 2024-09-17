@@ -73,7 +73,15 @@
                     </div>
 
                     <!-- Submit Button -->
-                    <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Save Post</button>
+                    <!-- Submit and Cancel Buttons -->
+<div class="flex justify-between">
+    <!-- Submit Button -->
+    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Save Post</button>
+
+    <!-- Cancel Button -->
+    <a href="/posts" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 text-center">Cancel</a>
+</div>
+
                 </form>
             </div>
         </div>
