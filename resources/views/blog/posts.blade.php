@@ -6,9 +6,7 @@
         <div class="mb-4 p-3 bg-green-500 text-white rounded">
             {{ Session::get('success') }}
         </div>
-    @endif
-    
-    @if (Session::has('fail'))
+    @elseif (Session::has('fail'))
         <div class="mb-4 p-3 bg-red-500 text-white rounded">
             {{ Session::get('fail') }}
         </div>

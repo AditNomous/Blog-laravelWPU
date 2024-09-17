@@ -16,9 +16,6 @@
                 <!-- Flash message for success or failure -->
                 @if (Session::has('fail'))
                 <div class="mb-4 p-3 bg-red-500 text-white rounded flex items-center">
-                    <svg class="w-5 h-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
                     <span>{{ Session::get('fail') }}</span>
                 </div>
             @elseif(Session::has('success'))

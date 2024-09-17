@@ -89,9 +89,9 @@ class PostController extends Controller
     public function deletepost($id){
     try {
         Post::where('id',$id)->delete();
-        return redirect('/posts');
-    } catch (\Exception $e){
-        return redirect(('/posts'));
+        return redirect('/posts')->with('success', 'Post deleted successfully!');
+    } catch (\Exception $e) {
+        return redirect('/posts')->with('fail', 'Failed to delete post.');
     }
 }
 }
