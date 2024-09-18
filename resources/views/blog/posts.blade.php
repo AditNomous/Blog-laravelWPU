@@ -13,6 +13,12 @@
     @endif
     
         <form>
+            @if(request('category'))
+            <input type="hidden" name="category" value="{{request('category')}}">
+            @endif
+            @if(request('author'))
+            <input type="hidden" name="category" value="{{request('category')}}">
+            @endif
             <label for="search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
             <div class="relative">
                 <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -42,7 +48,7 @@
                         <article
                             class="p-6 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
                             <div class="flex justify-between items-center mb-5 text-gray-500">
-                                <a href="/categories/{{ $post->category->slug }}"
+                                <a href="/posts?category={{ $post->category->slug }}"
                                     class="bg-{{ $post->category->color }}-100 text-primary-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-primary-200 dark:text-primary-800">
                                     <svg class=" mr-1 w-3 h-3" fill="currentColor" viewBox="0 0 20 20"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -66,7 +72,7 @@
                                     <img class="w-7 h-7 rounded-full"
                                         src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png"
                                         alt="Jese Leos avatar" />
-                                    <a href="/authors/{{ $post->author->username }}"
+                                    <a href="/posts?author={{ $post->author->username }}"
                                         class="font-medium dark:text-white">
                                         {{ $post->author->name }}
                                         <a>
