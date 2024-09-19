@@ -1,16 +1,37 @@
 <x-layout>
     <x-slot:title>{{ $title }}</x-slot:title>
-
     <div>
         @if (Session::has('success'))
-        <div class="mb-4 p-3 bg-green-500 text-white rounded">
+        <div class="mb-4 p-3 bg-green-500 text-white rounded fade-out success-alert">
             {{ Session::get('success') }}
         </div>
     @elseif (Session::has('fail'))
-        <div class="mb-4 p-3 bg-red-500 text-white rounded">
+        <div class="mb-4 p-3 bg-red-500 text-white rounded fade-out fail-alert">
             {{ Session::get('fail') }}
         </div>
     @endif
+    
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const successAlert = document.querySelector('.success-alert');
+            const failAlert = document.querySelector('.fail-alert');
+    
+            if (successAlert) {
+                setTimeout(() => {
+                    successAlert.classList.add('hidden');
+                }, 5000); // Menghilang setelah 5 detik
+            }
+    
+            if (failAlert) {
+                setTimeout(() => {
+                    failAlert.classList.add('hidden');
+                }, 5000); // Menghilang setelah 5 detik
+            }
+        });
+    </script>
+    
+    
     
         <form>
             @if(request('category'))
@@ -89,6 +110,7 @@
                                 </a>
                             </div>
                         </article>
-                    @endforeach
+                        @endforeach
+                        {{ $posts->links() }}
 
 </x-layout>

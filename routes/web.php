@@ -23,7 +23,7 @@ Route::get('about', function () {
 
 Route::get('/posts', function () {
     return view('blog/posts', ['title' => 'Blog', 'posts' => Post::filter(request
-    (['search','category', 'author']))->latest()->get()]);
+    (['search','category', 'author']))->latest()->paginate(12)->withQueryString()]);
 });  
 
 Route::get('/categories/{category:slug}', function(Category $category){
