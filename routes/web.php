@@ -1,8 +1,12 @@
 <?php
+
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\RegisterController;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\auth;
 use App\Models\Post;
 
 Route::get('/', function () {
@@ -54,3 +58,18 @@ Route::get('/delete/{id}', [PostController::class, 'deletepost'])->name('deletep
 Route::get('/edit/{id}', [PostController::class, 'loadeditpost'])->name('loadeditpost');
 
 Route::post('/edit', [PostController::class, 'editpost'])->name('editpost');
+
+Route::group(['middleware' => 'guest'], function () {
+    Route::get('/register', [RegisterController::class, 'create'])->name('register');
+    Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
+    Route::get('/', [LoginController::class, 'login'])->name('login');
+    Route::post('/', [LoginController::class, 'loginPost'])->name('login.store');
+});
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/home', function () {
+        return view('home', ['title' => 'Home page']);
+    });
+    Route::delete('/logout', [LoginController::class, 'logout'])->name('logout');
+    });
+    
