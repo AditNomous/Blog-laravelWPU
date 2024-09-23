@@ -9,9 +9,10 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\auth;
 use App\Models\Post;
 
-Route::get('/', function () {
-    return view('login');
-});
+
+
+Route::get('/', [PostController::class, 'loadpostguest']);
+
 
 Route::get('/home', function () {
     return view('home', ['title' => 'Home page']);
@@ -62,8 +63,8 @@ Route::post('/edit', [PostController::class, 'editpost'])->name('editpost');
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/register', [RegisterController::class, 'create'])->name('register');
     Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
-    Route::get('/', [LoginController::class, 'login'])->name('login');
-    Route::post('/', [LoginController::class, 'loginPost'])->name('login.store');
+    Route::get('/login', [LoginController::class, 'login'])->name('login');
+    Route::post('/login', [LoginController::class, 'loginPost'])->name('login.store');
 });
 
 Route::group(['middleware' => 'auth'], function () {

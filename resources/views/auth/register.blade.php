@@ -36,6 +36,12 @@
                     </div>
                     @enderror
                 </div>
+
+                <div class="form-group">
+                    <label for="profile_picture">Profile Picture</label>
+                    <input type="file" name="profile_picture" class="form-control">
+                </div>
+                
                 <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
                     <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"

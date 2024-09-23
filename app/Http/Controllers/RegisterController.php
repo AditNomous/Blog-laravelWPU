@@ -29,10 +29,20 @@ class RegisterController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 'user',
+            'profile_picture' => $request->profile_picture,
         ]);
         return redirect('/')->with('success', 'Register successfully!');
         
-      
+        if ($request->hasFile('profile_picture')) {
+            // Simpan gambar ke direktori public/profile_pictures
+            $fileName = time() . '.' . $request->profile_picture->extension();
+            $request->profile_picture->move(public_path('profile_pictures'), $fileName);
+    
+            // Simpan path gambar di database
+            $user->profile_picture = $fileName;
+            $user->save(); // Simpan perubahan user
+        }
+    
     //     if (Auth::attempt(['email' => $user->email, 'password' => $request->password])) {
     //         $request->session()->regenerate();
 

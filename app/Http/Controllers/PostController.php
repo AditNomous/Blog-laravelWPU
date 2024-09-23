@@ -11,12 +11,13 @@ use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
-    public function loadpost()
+    public function loadpostguest()
     {
         $posts = Post::all();
-        return view('blog/tablepost', compact('posts'));
+        $title = 'Posts';
+        return view('blog/guestposts', compact('posts', 'title') );
     }
-
+ 
     public function loadcreatepost()
     {
         $users = User::all();
