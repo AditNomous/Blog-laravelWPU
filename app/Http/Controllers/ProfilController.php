@@ -20,7 +20,7 @@ class ProfilController extends Controller
     if ($request->hasFile('profile_picture')) {
         // Simpan gambar ke direktori storage/app/public/profile_pictures
         $fileName = time() . '.' . $request->profile_picture->extension();
-        $request->profile_picture->move(public_path('profile_pictures'), $fileName);
+        $request->profile_picture->move(public_path('profile_picturesD:\repo git\Blog-laravelWPU\public\img\profile_pictures'), $fileName);
 
         // Simpan path gambar di database
         $user->profile_picture = $fileName;

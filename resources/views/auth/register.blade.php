@@ -14,7 +14,7 @@
 
     <div class="card">
         <div class="card-body">
-            <form action="{{route('register.store')}}" method="post">
+            <form action="{{route('register.store')}}" method="post" enctype="multipart/form-data"> <!-- Tambahkan enctype -->
                 @csrf
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
@@ -27,7 +27,7 @@
                     @enderror
                 </div>
                 <div class="mb-3">
-                    <label for="username" class="form-label">username</label>
+                    <label for="username" class="form-label">Username</label>
                     <input type="text" class="form-control @error('username') is-invalid @enderror" id="username"
                            name="username" placeholder="Your username" value="{{ old('username') }}">
                     @error('username')
@@ -36,12 +36,17 @@
                     </div>
                     @enderror
                 </div>
-
-                <div class="form-group">
+            
+                <div class="form-group mb-3">
                     <label for="profile_picture">Profile Picture</label>
-                    <input type="file" name="profile_picture" class="form-control">
+                    <input type="file" name="profile_picture" class="form-control @error('profile_picture') is-invalid @enderror" id="profile_picture">
+                    @error('profile_picture')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                    @enderror
                 </div>
-                
+            
                 <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
                     <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
@@ -75,6 +80,7 @@
                     <input type="submit" class="btn btn-primary" value="Register">
                 </div>
             </form>
+            
         </div>
     </div>
 </div>
