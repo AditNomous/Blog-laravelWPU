@@ -1,15 +1,14 @@
 <x-layout>
     <x-slot:title>{{ $title }}</x-slot:title>
 
-
-<body class="bg-gray-100">
-
+<body class="bg-gradient-to-r from-blue-500 to-purple-600">
 
 
-    
-    <div class="container mx-auto flex justify-center space-x-4 mt-8 px-6">
+
+    <div class="bg-gradient-to-r from-blue-500 to-yellow-600 p-4">
+    <div class="bg-gradient-to-r from-blue-500 to-purple-600 container mx-auto flex justify-center space-x-4 px-6">
         <!-- Categories -->@foreach ($categories as $item)
-        <div class="flex space-x-4 overflow-auto">
+        <div class="flex space-x-4 overflow-auto " >
             
             <a href="/posts?category={{ $item->slug }}" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-6 rounded-full transition duration-300">{{$item->name}}</a>
             
@@ -18,7 +17,7 @@
     </div>
 
     <!-- Main Content -->
-    <div class="container mx-auto mt-12 flex flex-col lg:flex-row px-6">
+    <div class="bg-gradient-to-r from-blue-500 to-purple-600 container mx-auto mt-12 flex flex-col lg:flex-row px-6">
         
         <!-- Left Side (Get Started Button) -->
         <div class="flex-grow flex justify-center items-center mb-12 lg:mb-0">
@@ -50,7 +49,7 @@
             </div>
         </div>
     </div>
-
+</div>
     <!-- Footer -->
     <footer class="mt-16 bg-white py-4 shadow-lg">
         <div class="container mx-auto text-center text-gray-600">

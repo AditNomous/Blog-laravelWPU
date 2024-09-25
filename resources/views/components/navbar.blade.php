@@ -1,4 +1,4 @@
-<nav class="bg-gray-800" x-data="{ isOpen: false }">
+<nav class="bg-gradient-to-r from-blue-400 to-blue-500" x-data="{ isOpen: false }">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex h-16 items-center justify-between">
           <div class="flex items-center">
@@ -9,6 +9,9 @@
                   <div class="ml-10 flex items-baseline space-x-4">
                       <x-nav-link href="/index" :active="request()->is('home')">Home</x-nav-link>
                       <x-nav-link href="/posts" :active="request()->is('posts')">Blog</x-nav-link>
+                      @auth
+                      <x-nav-link href="/yourposts" :active="request()->is('yourposts')">My Posts</x-nav-link>
+                  @endauth
                       <x-nav-link href="/about" :active="request()->is('about')">About</x-nav-link>
                       <x-nav-link href="/contact" :active="request()->is('contact')">Contact</x-nav-link>
                   </div>

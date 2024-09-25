@@ -12,11 +12,14 @@ use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
-    public function loadpostguest()
+    public function loadpostsguest()
     {
-        $posts = Post::all();
+        $latestPosts = Post::all()->latest();
+        $users = User::all();
+        $categories = Category::all(); 
+        $posts = Post::filter(request(['search','category', 'author']))->latest()->paginate(12)->withQueryString();
         $title = 'Posts';
-        return view('blog/guestposts', compact('posts', 'title') );
+        return view('blog/guestposts', compact('posts','title','categories','users','latestPosts'));
     }
  
     public function loadindex()
