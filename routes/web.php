@@ -10,8 +10,9 @@ use Illuminate\Support\Facades\auth;
 use App\Models\Post;
 
 
-
-Route::get('/', [PostController::class, 'loadpostguest']);
+Route::get('/', [PostController::class, 'loadindex']);
+Route::get('/guest', [PostController::class, 'loadpostguest']);
+Route::get('/index', [PostController::class, 'loadindex']);
 
 
 Route::get('/home', function () {
@@ -27,7 +28,7 @@ Route::get('about', function () {
 });
 
 Route::get('/posts', function () {
-    return view('blog/posts', ['title' => 'Blog', 'posts' => Post::filter(request
+    return view('blog/guestposts', ['title' => 'Blog', 'posts' => Post::filter(request
     (['search','category', 'author']))->latest()->paginate(12)->withQueryString()]);
 });  
 
@@ -73,4 +74,17 @@ Route::group(['middleware' => 'auth'], function () {
     });
     Route::delete('/logout', [LoginController::class, 'logout'])->name('logout');
     });
+
+    Route::get('/yourposts', function () {
+        return view('yourposts', [
+            'title' => 'Your Posts',
+            'yourposts' => Post::where('author_id', Auth::id()) // Ambil postingan milik user yang sedang login
+                ->filter(request(['search', 'category', 'author'])) // Masih bisa menggunakan filter search, category, dll.
+                ->latest()
+                ->paginate(12)
+                ->withQueryString()
+        ]);
+    })->middleware('auth');
+
+
     

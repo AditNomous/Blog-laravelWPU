@@ -7,7 +7,7 @@
               </div>
               <div class="hidden md:block">
                   <div class="ml-10 flex items-baseline space-x-4">
-                      <x-nav-link href="/home" :active="request()->is('home')">Home</x-nav-link>
+                      <x-nav-link href="/index" :active="request()->is('home')">Home</x-nav-link>
                       <x-nav-link href="/posts" :active="request()->is('posts')">Blog</x-nav-link>
                       <x-nav-link href="/about" :active="request()->is('about')">About</x-nav-link>
                       <x-nav-link href="/contact" :active="request()->is('contact')">Contact</x-nav-link>
@@ -17,13 +17,7 @@
 
           <div class="hidden md:block">
               <div class="ml-4 flex items-center md:ml-6">
-                  <button type="button" class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                      <span class="absolute -inset-1.5"></span>
-                      <span class="sr-only">View notifications</span>
-                      <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-                      </svg>
-                  </button>
+      
 
                   <!-- Profile dropdown -->
                   <div class="relative ml-3">
@@ -86,6 +80,9 @@
       <div class="flex flex-col space-y-1 px-2 pb-3 pt-2 sm:px-3">
           <x-nav-link href="/home" :active="request()->is('home')">Home</x-nav-link>
           <x-nav-link href="/posts" :active="request()->is('posts')">Blog</x-nav-link>
+          @auth
+          <x-nav-link href="/yourposts" :active="request()->is('yourposts')">My Posts</x-nav-link>
+      @endauth
           <x-nav-link href="/about" :active="request()->is('about')">About</x-nav-link>
           <x-nav-link href="/contact" :active="request()->is('contact')">Contact</x-nav-link>
       </div>
@@ -112,9 +109,13 @@
           <div class="mt-3 space-y-1 px-2">
               @if(auth()->check())
                   <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Your Profile</a>
-                  <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Settings</a>
-                  <a href="/logout" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Sign out</a>
-              @else
+                  <a href="" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Settings</a>
+                  <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button class="block w-full px-4 py-2 text-sm text-gray-700 text-left" role="menuitem">Logout</button>
+                </form>
+                  @else
                   <a href="/login" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Login</a>
               @endif
           </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
@@ -18,6 +19,14 @@ class PostController extends Controller
         return view('blog/guestposts', compact('posts', 'title') );
     }
  
+    public function loadindex()
+    {
+        $users = User::all();
+        $categories = Category::all(); // Mengambil semua kategori
+        $title = 'dashboard';
+        return view('index', compact('categories','users', 'title'));
+    }
+
     public function loadcreatepost()
     {
         $users = User::all();
@@ -29,7 +38,7 @@ class PostController extends Controller
     {
         $request->validate([
             'title' => 'required',
-            'author' => 'required',
+          
             'category' => 'required',
             'body' => 'required'
         ]);
@@ -37,7 +46,7 @@ class PostController extends Controller
         try {
             $new_post = new Post();
             $new_post->title = $request->title;
-            $new_post->author_id = $request->author; // Menyimpan ID author (penulis)
+            $new_post->author_id = auth()->id();
             $new_post->category_id = $request->category; // Menyimpan ID kategori
             $new_post->slug = Str::slug($request->input('title'), '-');
             $new_post->body = $request->body;
@@ -60,7 +69,6 @@ class PostController extends Controller
         try {
             Post::where('id',$request->post_id)->update([
                 'title' => $request->title,
-                'category_id' => $request->category, // Update category_id
                 'body' => $request->body,
                 'slug' => Str::slug($request->input('title'), '-')
             ]);

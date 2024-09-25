@@ -34,18 +34,7 @@
                     </div>
 
                     <!-- Author (User) Dropdown -->
-                    <div class="mb-4">
-                        <label for="author" class="block text-gray-700 font-medium">Select Author</label>
-                        <select name="author" class="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500" id="author">
-                            <option value="" disabled selected>Choose author</option>
-                            @foreach ($users as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
-                            @endforeach
-                        </select>
-                        @error('author')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
+                  
 
                     <!-- Category Dropdown -->
                     <div class="mb-4">
