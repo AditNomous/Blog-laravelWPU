@@ -22,9 +22,9 @@
         
         <!-- Left Side (Get Started Button) -->
         <div class="flex-grow flex justify-center items-center mb-12 lg:mb-0">
-            <button class="bg-green-500 hover:bg-green-600 text-white font-bold text-lg py-6 px-12 rounded-full transition duration-300 transform hover:scale-105 shadow-lg">
-                Get Started
-            </button>
+            <a href="/login" class="bg-green-500 hover:bg-green-600 text-white font-bold text-lg py-6 px-12 rounded-full transition duration-300 transform hover:scale-105 shadow-lg">
+                Create yourPost
+            </a>
         </div>
         
         <!-- Right Side (Popular Posts) -->
