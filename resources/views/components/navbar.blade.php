@@ -7,7 +7,7 @@
               </div>
               <div class="hidden md:block">
                   <div class="ml-10 flex items-baseline space-x-4">
-                      <x-nav-link href="/index" :active="request()->is('home')">Home</x-nav-link>
+                      <x-nav-link href="/" :active="request()->is('home')">Home</x-nav-link>
                       <x-nav-link href="/posts" :active="request()->is('posts')">Blog</x-nav-link>
                       @auth
                       <x-nav-link href="/yourposts" :active="request()->is('yourposts')">My Posts</x-nav-link>
@@ -58,11 +58,16 @@
                               <a href="/login" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1">Login</a>
                           @endif
                       </div>
-                  </div>
-              </div>
-          </div>
-
-          <div class="-mr-2 flex md:hidden">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="-mr-2 flex md:hidden">
+                <div class="mr-4">
+                 @guest 
+                 <a href="/login" class="bg-blue-700 block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-gray-700 hover:text-white">Login</a>
+                @endguest
+                </div>
               <!-- Mobile menu button -->
               <button type="button" @click="isOpen = !isOpen" class="relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" aria-controls="mobile-menu" aria-expanded="false">
                   <span class="absolute -inset-0.5"></span>
@@ -81,7 +86,7 @@
   <!-- Mobile menu, show/hide based on menu state. -->
   <div x-show="isOpen" class="md:hidden" id="mobile-menu">
       <div class="flex flex-col space-y-1 px-2 pb-3 pt-2 sm:px-3">
-          <x-nav-link href="/home" :active="request()->is('home')">Home</x-nav-link>
+          <x-nav-link href="/" :active="request()->is('home')">Home</x-nav-link>
           <x-nav-link href="/posts" :active="request()->is('posts')">Blog</x-nav-link>
           @auth
           <x-nav-link href="/yourposts" :active="request()->is('yourposts')">My Posts</x-nav-link>
@@ -118,8 +123,6 @@
                     @method('DELETE')
                     <button class="block w-full px-4 py-2 text-sm text-gray-700 text-left" role="menuitem">Logout</button>
                 </form>
-                  @else
-                  <a href="/login" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Login</a>
               @endif
           </div>
       </div>

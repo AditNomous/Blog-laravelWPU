@@ -8,7 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\auth;
 use App\Models\Post;
-
+use Illuminate\Auth\Events\Logout;
 
 Route::get('/', [PostController::class, 'loadindex']);
 Route::get('/guest', [PostController::class, 'loadpostguest']);
@@ -69,11 +69,11 @@ Route::group(['middleware' => 'guest'], function () {
 });
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/home', function () {
-        return view('home', ['title' => 'Home page']);
-    });
+    Route::get('/index', [PostController::class, 'loadindex']);
+    Route::get('/home', [PostController::class, 'loadindex'] );
+
     Route::delete('/logout', [LoginController::class, 'logout'])->name('logout');
-    });
+});    
 
     Route::get('/yourposts', function () {
         return view('yourposts', [

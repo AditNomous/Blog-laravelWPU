@@ -2,7 +2,8 @@
     <x-slot:title>{{ $title }}</x-slot:title>
 
 
-<body class="bg-gray-100">
+    <body style="background: url('img/bg.jpeg'); background-size: cover; height:fit-content;margin: 0;">
+    
 
     <form>
         @if(request('category'))
@@ -29,9 +30,9 @@
 
     </form>
     
-    <div class="container mx-auto flex justify-center space-x-4 mt-8 px-6">
+    <div class="container flex justify-center space-x-4 mt-8 px-6">
         <!-- Categories -->@foreach ($categories as $item)
-        <div class="flex space-x-4 overflow-auto">
+        <div class="flex space-x-4 ">
             
             <a href="/posts?category={{ $item->slug }}" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-6 rounded-full transition duration-300">{{$item->name}}</a>
             

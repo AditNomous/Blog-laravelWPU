@@ -26,8 +26,9 @@ class PostController extends Controller
     {
         $users = User::all();
         $categories = Category::all(); // Mengambil semua kategori
-        $title = 'dashboard';
-        return view('index', compact('categories','users', 'title'));
+       
+        $posts = Post::latest()->take(4)->get();
+        return view('index', compact('categories','users','posts'));
     }
 
     public function loadcreatepost()
@@ -55,7 +56,7 @@ class PostController extends Controller
             $new_post->body = $request->body;
             $new_post->save();
 
-            return redirect('/posts')->with('success', ' New Post Success');
+            return back()->with('success', ' New Post Success');
         } catch (\Exception $e) {
             return redirect('/createpost')->with('fail', $e->getMessage());
         }
