@@ -12,7 +12,6 @@ use Illuminate\Auth\Events\Logout;
 
 Route::get('/', [PostController::class, 'loadindex']);
 Route::get('/guest', [PostController::class, 'loadpostguest']);
-Route::get('/index', [PostController::class, 'loadindex']);
 
 
 Route::get('/home', function () {
@@ -27,10 +26,12 @@ Route::get('about', function () {
     return view('about', ['title' => 'About']);
 });
 
-Route::get('/posts', function () {
-    return view('blog/guestposts', ['latestPosts' => Post::latest(),'title' => 'Blog', 'categories' => Category::all(),'posts' => Post::filter(request
-    (['search','category', 'author']))->latest()->paginate(12)->withQueryString()]);
-});  
+Route::get('/posts',[PostController::class, 'loadpostsguest']);
+
+// Route::get('/posts', function () {
+//     return view('blog/guestposts', ['latestPosts' => Post::latest(),'title' => 'Blog', 'categories' => Category::all(),'posts' => Post::filter(request
+//     (['search','category', 'author']))->latest()->paginate(12)->withQueryString()]);
+// });  
 
 Route::get('/categories/{category:slug}', function(Category $category){
     return view('blog/posts', ['title' => 'Articles by category ' . $category->name, 'posts' => $category->posts]);

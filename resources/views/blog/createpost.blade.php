@@ -67,8 +67,8 @@
 
                     <!-- Image Upload -->
                     <div class="mb-4">
-                        <label for="image" class="block text-gray-700 font-medium">Upload Image</label>
-                        <input type="file" name="image" accept="image/*" class="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <label for="image" class="block text-gray-700 font-medium">Upload Cover</label>
+                        <input type="file" id="cover" name="cover" accept="image/*" class="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
                         @error('image')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror

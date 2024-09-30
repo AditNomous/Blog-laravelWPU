@@ -8,18 +8,24 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use PhpParser\Node\NullableType;
+
+
+
 
 
 class PostController extends Controller
 {
+    
+
     public function loadpostsguest()
     {
-        $latestPosts = Post::all()->latest();
+      
         $users = User::all();
         $categories = Category::all(); 
         $posts = Post::filter(request(['search','category', 'author']))->latest()->paginate(12)->withQueryString();
         $title = 'Posts';
-        return view('blog/guestposts', compact('posts','title','categories','users','latestPosts'));
+        return view('blog/guestposts', compact('posts','title','categories','users'));
     }
  
     public function loadindex()
@@ -42,7 +48,6 @@ class PostController extends Controller
     {
         $request->validate([
             'title' => 'required',
-          
             'category' => 'required',
             'body' => 'required'
         ]);
@@ -54,11 +59,19 @@ class PostController extends Controller
             $new_post->category_id = $request->category; // Menyimpan ID kategori
             $new_post->slug = Str::slug($request->input('title'), '-');
             $new_post->body = $request->body;
+            $new_post->cover = $request->cover;
             $new_post->save();
+
+            if ($request->hasFile('cover')){
+            $fileName = time(). '.' . $request->cover->extension();
+            $request->cover->move(public_path('cover'), $fileName);
+            $new_post->cover=$fileName;
+            $new_post->save();
+            }
 
             return redirect('/posts')->with('createsuccess', ' New Post Success');
         } catch (\Exception $e) {
-            return redirect('/createpost')->with('fail', $e->getMessage());
+            return redirect('/create')->with('fail', $e->getMessage());
         }
     }
     public function editpost(Request $request)
@@ -74,7 +87,8 @@ class PostController extends Controller
             Post::where('id',$request->post_id)->update([
                 'title' => $request->title,
                 'body' => $request->body,
-                'slug' => Str::slug($request->input('title'), '-')
+                'slug' => Str::slug($request->input('title'), '-'),
+                'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
             ]);
             return redirect('/posts')->with('success', 'Post updated successfully!');
         } catch (\Exception $e) {
