@@ -56,7 +56,7 @@ class PostController extends Controller
             $new_post->body = $request->body;
             $new_post->save();
 
-            return back()->with('success', ' New Post Success');
+            return redirect('/posts')->with('createsuccess', ' New Post Success');
         } catch (\Exception $e) {
             return redirect('/createpost')->with('fail', $e->getMessage());
         }

@@ -36,14 +36,14 @@
         @endauth
         <div class="w-full lg:w-1/4">
             {{-- @foreach() --}}
-            <h2 class="text-xl font-bold text-gray-800 mb-6">Post Populer</h2>
+            <h2 class="text-xl font-bold text-white mb-6">Post Latest</h2>
            
             <div class="space-y-4">
                 @foreach($posts as $post)
         
                 <div class="bg-white hover:bg-gray-100 p-4 rounded-lg shadow-md transition duration-300">
                     <h3 class="text-gray-800 font-semibold">{{$post->title}}</h3>
-                    <p class="text-gray-600 text-sm">{{\Illuminate\Support\Str::words($post->body, 5, '...')}}...</p>
+                    <p class="text-gray-600 text-sm">{!!\Illuminate\Support\Str::words($post->body, 5, '...')!!}...</p>
                 </div>
                 @endforeach
             </div>
