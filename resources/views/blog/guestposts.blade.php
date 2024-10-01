@@ -109,6 +109,12 @@
                                 {{ $post->author->name }}
                             </a>
                         </div>
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                            </svg>
+                            
+                        </div>
                 
                         <a href="/posts/{{ $post->slug }}"
                             class="inline-flex items-center font-medium text-primary-600 dark:text-primary-500 hover:underline">
@@ -119,6 +125,45 @@
                                     clip-rule="evenodd"></path>
                             </svg>
                         </a>
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-center">
+                            <!-- Bagian Like -->
+                            <form method="POST" action="{{ route('posts.like', $post) }}">
+                                @csrf
+                                @if ($post->likedBy(auth()->user()))
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                                        </svg> Unlike
+                                    </button>
+                                @else
+                                    <button type="submit" class="text-gray-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                                        </svg> Like
+                                    </button>
+                                @endif
+                            </form>
+                            <span>{{ $post->likes->count() }} likes</span>
+                        
+                            <!-- Bagian Comment -->
+                            <form method="POST" action="{{ route('posts.comment', $post) }}" class="w-full">
+                                @csrf
+                                <textarea name="body" class="w-full p-2 mt-2 border rounded" placeholder="Add a comment"></textarea>
+                                <button type="submit" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded">Comment</button>
+                            </form>
+                        
+                            <ul class="mt-4">
+                                @foreach ($post->comments as $comment)
+                                    <li class="border-b border-gray-200 py-2">
+                                        <span class="font-semibold">{{ $comment->user->name }}:</span> {{ $comment->body }}
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        
                     </div>
                 </article>
                 

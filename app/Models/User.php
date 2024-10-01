@@ -52,4 +52,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class, 'author_id');
     }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+   public function getIdAttribute()
+    {
+        return $this->attributes['id'];
+    }
+
 }

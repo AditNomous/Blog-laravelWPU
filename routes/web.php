@@ -88,4 +88,10 @@ Route::group(['middleware' => 'auth'], function () {
     })->middleware('auth');
 
 
+    Route::post('/posts/{post}/like', [PostController::class, 'like'])->name('posts.like');
+    Route::delete('/posts/{post}/like', [PostController::class, 'unlike'])->name('posts.unlike');
+    Route::post('/posts/{post}/comment', [PostController::class, 'comment'])->name('posts.comment');
+    
+
+
     

@@ -55,7 +55,7 @@ class PostController extends Controller
         try {
             $new_post = new Post();
             $new_post->title = $request->title;
-            $new_post->author_id = auth()->id();
+            $new_post->author_id = Auth::id();
             $new_post->category_id = $request->category; // Menyimpan ID kategori
             $new_post->slug = Str::slug($request->input('title'), '-');
             $new_post->body = $request->body;
@@ -121,4 +121,36 @@ class PostController extends Controller
         return redirect('/posts')->with('fail', 'Failed to delete post.');
     }
 }
+
+    
+    public function like(Post $post){
+        if (!$post->likedBy(auth()->user())){
+            $post->likes()->create([
+                'user_id' => Auth::id()
+            ]);
+        }
+        return back();
+    }
+
+    public function unlike(Post $post)
+{
+    $post->likes()->where('user_id', Auth::id())->delete();
+
+    return back();
+}
+public function comment(Request $request, Post $post)
+{
+    $request->validate([
+        'body' => 'required',
+    ]);
+
+    $post->comments()->create([
+        'user_id' => auth::id(),
+        'body' => $request->body,
+    ]);
+
+    return back();
+}
+
+
 }

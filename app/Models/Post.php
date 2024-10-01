@@ -12,7 +12,7 @@ class Post extends Model
     use HasFactory;
     protected $fillable = ['title','author','slug','body','cover'];
 
-    protected $with =['category','author'];
+    protected $with =['category','author','likes','comments'];
 
     public function author(): BelongsTo
     {
@@ -22,6 +22,21 @@ class Post extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function likedBy(User $user)
+    {
+        return $this->likes->contains('user_id',$user->id);
     }
 
     public function scopeFilter(Builder $query, array $filters): void
