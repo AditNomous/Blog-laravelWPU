@@ -64,7 +64,6 @@
                     class="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-blue-500" required />
             </div>
             <div class="mb-5">
-
                 <button type="submit"
                     class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 transition-transform transform hover:scale-105 duration-200">Login</button>
             </div>
@@ -72,6 +71,12 @@
                 <a href="/"
                     class="w-full inline-block text-center text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 transition-transform transform hover:scale-105 duration-200">Login
                     as guest</a>
+            </div>
+            <div class="text-center mb-4">
+                <button id="forgotPasswordButton" type="button"
+                    class="text-blue-700 hover:text-blue-900 focus:outline-none transition-colors">
+                    Lupa Kata Sandi?
+                </button>
             </div>
         </form>
 
@@ -122,12 +127,31 @@
             <button type="submit"
                 class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 transition-transform transform hover:scale-105 duration-200">Register</button>
         </form>
+
+        <!-- Forgot Password Form -->
+        <form id="forgotPasswordForm" action="{{ route('password.email') }}" method="POST" class="space-y-4 hidden">
+            @csrf
+            <h2 class="text-xl font-semibold text-center text-gray-800">Lupa Kata Sandi</h2>
+            <div class="mb-5">
+                <label for="forgotEmail" class="block text-sm font-medium text-gray-900">Email</label>
+                <input name="email" type="email" id="forgotEmail"
+                    class="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                    placeholder="name@flowbite.com" required />
+            </div>
+            <button type="submit"
+                class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 transition-transform transform hover:scale-105 duration-200">Kirim Tautan Pemulihan</button>
+            <div class="text-center">
+                <button id="backToLoginButton" type="button"
+                    class="text-blue-700 hover:text-blue-900 focus:outline-none transition-colors">Kembali ke Login</button>
+            </div>
+        </form>
     </div>
 
     <script>
         const toggleFormButton = document.getElementById('toggleFormButton');
         const loginForm = document.getElementById('loginForm');
         const registerForm = document.getElementById('registerForm');
+        const forgotPasswordForm = document.getElementById('forgotPasswordForm');
         const profilePictureInput = document.getElementById('profile_picture');
         const previewImage = document.getElementById('preview');
         const fileNameDisplay = document.getElementById('fileName');
@@ -152,6 +176,26 @@
                 }, 500);
                 toggleFormButton.textContent = 'Belum punya akun? Yuk daftar';
             }
+        });
+
+        document.getElementById('forgotPasswordButton').addEventListener('click', () => {
+            // Fade out login form
+            loginForm.classList.replace('fade-in', 'fade-out');
+            setTimeout(() => {
+                loginForm.classList.add('hidden');
+                forgotPasswordForm.classList.remove('hidden');
+                forgotPasswordForm.classList.replace('fade-out', 'fade-in');
+            }, 500);
+        });
+
+        document.getElementById('backToLoginButton').addEventListener('click', () => {
+            // Fade out forgot password form
+            forgotPasswordForm.classList.replace('fade-in', 'fade-out');
+            setTimeout(() => {
+                forgotPasswordForm.classList.add('hidden');
+                loginForm.classList.remove('hidden');
+                loginForm.classList.replace('fade-out', 'fade-in');
+            }, 500);
         });
 
         profilePictureInput.addEventListener('change', (event) => {
