@@ -24,20 +24,22 @@ class Post extends Model
         return $this->belongsTo(Category::class, 'category_id');
     }
 
+    
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
     public function likes()
     {
         return $this->hasMany(Like::class);
     }
 
-    public function comments()
-    {
-        return $this->hasMany(Comment::class);
-    }
+public function likedBy(User $user)
+{
+    // Menggunakan where dan first() untuk cek apakah user sudah like
+    return $this->likes()->where('user_id', $user->id)->exists();
+}
 
-    public function likedBy(User $user)
-    {
-        return $this->likes->contains('user_id',$user->id);
-    }
 
     public function scopeFilter(Builder $query, array $filters): void
     {

@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\auth;
 use App\Models\Post;
+use App\Http\Controllers\LikeController;
 use Illuminate\Auth\Events\Logout;
 
 Route::get('/', [PostController::class, 'loadindex']);
@@ -88,10 +89,10 @@ Route::group(['middleware' => 'auth'], function () {
     })->middleware('auth');
 
 
-    Route::post('/posts/{post}/like', [PostController::class, 'like'])->name('posts.like');
-    Route::delete('/posts/{post}/like', [PostController::class, 'unlike'])->name('posts.unlike');
-    Route::post('/posts/{post}/comment', [PostController::class, 'comment'])->name('posts.comment');
-    
+
+Route::post('/posts/{post}/like', [LikeController::class, 'toggleLike']);
+
+
 
 
     

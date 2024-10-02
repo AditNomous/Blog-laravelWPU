@@ -8,7 +8,6 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use PhpParser\Node\NullableType;
 
 
 
@@ -23,7 +22,8 @@ class PostController extends Controller
       
         $users = User::all();
         $categories = Category::all(); 
-        $posts = Post::filter(request(['search','category', 'author']))->latest()->paginate(12)->withQueryString();
+        $posts = Post::with(['author', 'category'])->filter(request(['search','category', 'author']))
+        ->latest()->paginate(12)->withQueryString();
         $title = 'Posts';
         return view('blog/guestposts', compact('posts','title','categories','users'));
     }
@@ -124,7 +124,7 @@ class PostController extends Controller
 
     
     public function like(Post $post){
-        if (!$post->likedBy(auth()->user())){
+        if (!$post->likedBy(Auth::user())){
             $post->likes()->create([
                 'user_id' => Auth::id()
             ]);
