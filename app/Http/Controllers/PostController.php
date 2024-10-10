@@ -94,26 +94,39 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required',
             'category' => 'required',
-            'body' => 'required'
+            'body' => 'required',
+            'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048' // validasi file cover
         ]);
-
-        
+    
         try {
-            Post::where('id',$request->post_id)->update([
-                'title' => $request->title,
-                'body' => $request->body,
-                'slug' => Str::slug($request->input('title'), '-'),
-                'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
-            ]);
+            $post = Post::findOrFail($request->post_id);
+    
+            // Periksa jika ada file cover baru
+            if ($request->hasFile('cover')) {
+                // Hapus cover lama jika ada
+                if ($post->cover && file_exists(public_path('cover/' . $post->cover))) {
+                    unlink(public_path('cover/' . $post->cover));
+                }
+    
+                // Simpan file cover baru
+                $fileName = time() . '.' . $request->cover->extension();
+                $request->cover->move(public_path('cover'), $fileName);
+                $post->cover = $fileName;
+            }
+    
+            // Update data lainnya
+            $post->title = $request->title;
+            $post->category_id = $request->category;
+            $post->slug = Str::slug($request->input('title'), '-');
+            $post->body = $request->body;
+            $post->save();
+    
             return redirect('/posts')->with('success', 'Post updated successfully!');
         } catch (\Exception $e) {
-            return back()->with('fail', 'Failed to update post.');
+            return back()->with('fail', 'Failed to update post: ' . $e->getMessage());
         }
-            
-
-
-       
     }
+    
 
     public function loadeditpost($id){
         $post = Post::find($id);
