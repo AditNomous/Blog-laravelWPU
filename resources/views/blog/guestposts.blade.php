@@ -121,18 +121,18 @@
                             @if ($post->likedBy(auth()->user()))
                                 <button id="like-btn-{{ $post->id }}" class="btn btn-primary"
                                     onclick="toggleLike({{ $post->id }})">
-                                    <img src="/icons/unlike_icon.png" alt="Unlike Icon"
+                                    <img src="/icons/unlike.png" alt="Unlike Icon"
                                         style="width: 24px; height: 24px;"> Unlike
                                 </button>
                             @else
                                 <button id="like-btn-{{ $post->id }}" class="btn btn-secondary"
                                     onclick="toggleLike({{ $post->id }})">
-                                    <img src="/icons/like_icon.png" alt="Like Icon" style="width: 24px; height: 24px;">
-                                    Like
+                                    <img src="/icons/like.png" alt="Like Icon" style="width: 24px; height: 24px;">
+                                    
                                 </button>
                             @endif
 
-                            <span id="like-count-{{ $post->id }}">{{ $post->likes->count() }}</span> Likes
+                            <span id="like-count-{{ $post->id }}">{{ $post->likes->count() }}</span>
                         </div>
 
                     </article>
@@ -143,32 +143,34 @@
         <!-- AJAX untuk Like -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script>
-            function toggleLike(postId) {
-                $.ajax({
-                    url: '/posts/' + postId + '/like',
-                    method: 'POST',
-                    data: {
-                        _token: '{{ csrf_token() }}' // Sertakan token CSRF
-                    },
-                    success: function(response) {
-                        $('#like-btn-' + postId).toggleClass('btn-primary btn-secondary');
+function toggleLike(postId) {
+    $.ajax({
+        url: '/posts/' + postId + '/like',
+        method: 'POST',
+        data: {
+            _token: '{{ csrf_token() }}'
+        },
+        success: function(response) {
+            const likeBtn = $('#like-btn-' + postId);
+            const likeCount = $('#like-count-' + postId);
 
-                        if (response.liked) {
-                            $('#like-btn-' + postId).html(
-                                '<img src="/icons/unlike.png" alt="Unlike Icon" style="width: 24px; height: 24px;"> Unlike'
-                                );
-                        } else {
-                            $('#like-btn-' + postId).html(
-                                '<img src="/icons/like.png" alt="Like Icon" style="width: 24px; height: 24px;"> Like'
-                                );
-                        }
-
-                        $('#like-count-' + postId).text(response.likeCount + ' Likes');
-                    }
-                });
+            if (response.status === 'liked') {
+                likeBtn.html('<img src="/icons/unlike.png" alt="Unlike Icon" style="width: 24px; height: 24px;"> Unlike');
+                likeBtn.addClass('btn-primary').removeClass('btn-secondary');
+            } else {
+                likeBtn.html('<img src="/icons/like.png" alt="Like Icon" style="width: 24px; height: 24px;"> Like');
+                likeBtn.addClass('btn-secondary').removeClass('btn-primary');
             }
-        </script>
 
+            likeCount.text(response.likeCount + ' Likes');
+        },
+        error: function() {
+            alert("Error processing your request. Please try again.");
+        }
+    });
+}
+
+        </script>
 
         <!-- Footer -->
         <footer class="mt-16 bg-white py-4 shadow-lg">
@@ -178,3 +180,4 @@
         </footer>
     </body>
 </x-layout>
+``

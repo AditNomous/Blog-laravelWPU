@@ -12,6 +12,8 @@ use App\Http\Controllers\LikeController;
 use Illuminate\Auth\Events\Logout;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
+use App\Http\Controllers\AdminController;
+use App\Http\Middleware\AdminMiddleware;
 
 Route::get('/', [PostController::class, 'loadindex']);
 Route::get('/guest', [PostController::class, 'loadpostguest']);
@@ -19,6 +21,10 @@ Route::get('/guest', [PostController::class, 'loadpostguest']);
 
 Route::get('/home', function () {
     return view('home', ['title' => 'Home page']);
+});
+
+Route::get('/dump',function (){
+    return view(('blog/dump'));
 });
 
 Route::get('welcome', function () {
@@ -99,6 +105,13 @@ Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestF
 Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
+
+
+
+
+
+
+
 
 
 

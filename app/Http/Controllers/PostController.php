@@ -15,7 +15,15 @@ use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
-    
+    public function loadadminpost()
+    {
+        $users = User::all();
+        $categories = Category::all(); 
+        $posts = Post::with(['author', 'category'])->filter(request(['search','category', 'author']))
+        ->latest()->paginate(12)->withQueryString();
+        $title = 'Posts';
+        return view('admin/posts', compact('posts','title','categories','users'));
+    }
 
     public function loadpostsguest()
     {
@@ -34,7 +42,14 @@ class PostController extends Controller
         $categories = Category::all(); // Mengambil semua kategori
        
         $posts = Post::latest()->take(4)->get();
-        return view('index', compact('categories','users','posts'));
+
+        $featuredPost = Post::withCount('likes')
+        ->orderBy('likes_count', 'desc') // Mengurutkan berdasarkan jumlah like terbanyak
+        ->orderBy('created_at', 'desc') // Jika ada yang sama, ambil postingan paling baru
+        ->first(); // Mengambil satu postingan sebagai featured post
+
+    $posts = Post::latest()->take(4)->get(); // Mendapatkan 4 postingan terbaru untuk bagian utama halaman
+    return view('index', compact('categories', 'users', 'posts', 'featuredPost'));
     }
 
     public function loadcreatepost()

@@ -34,8 +34,11 @@ class Post extends Model
         return $this->hasMany(Like::class);
     }
 
-public function likedBy(User $user)
+public function likedBy(?User $user)
 {
+    if (is_null($user)){
+        return false;
+    }
     // Menggunakan where dan first() untuk cek apakah user sudah like
     return $this->likes()->where('user_id', $user->id)->exists();
 }

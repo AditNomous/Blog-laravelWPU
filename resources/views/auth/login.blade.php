@@ -5,6 +5,27 @@
     @vite('resources/css/app.css', 'resources/js/app.js')
 
     <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        #rippleCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .form-container {
+            position: relative;
+            z-index: 1;
+        }
+
         .fade-in {
             animation: fadeIn 1s ease-in-out forwards;
         }
@@ -36,15 +57,34 @@
                 transform: translateY(20px);
             }
         }
+
+        /* Animasi tulisan bergerak/melompat */
+        .jump {
+            animation: jump 1.5s ease-in-out infinite;
+        }
+
+        @keyframes jump {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
     </style>
 </head>
 
 <body class="bg-gradient-to-r from-blue-500 to-purple-600 min-h-screen flex items-center justify-center">
-    <div class="w-full max-w-md bg-white bg-opacity-80 p-6 rounded-lg shadow-md backdrop-blur-md">
+
+    <!-- Canvas untuk efek ripple -->
+    <canvas id="rippleCanvas"></canvas>
+
+    <!-- Form -->
+    <div class="form-container w-full max-w-md bg-white bg-opacity-80 p-6 rounded-lg shadow-md backdrop-blur-md">
         <!-- Toggle Button -->
         <div class="text-center mb-4">
             <button id="toggleFormButton" class="text-blue-700 hover:text-blue-900 focus:outline-none transition-colors">
-                Belum punya akun? Yuk daftar
+                <span class="jump">Belum punya akun? Yuk daftar</span>
             </button>
         </div>
 
@@ -127,75 +167,38 @@
             <button type="submit"
                 class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 transition-transform transform hover:scale-105 duration-200">Register</button>
         </form>
-
-        <!-- Forgot Password Form -->
-        <form id="forgotPasswordForm" action="{{ route('password.email') }}" method="POST" class="space-y-4 hidden">
-            @csrf
-            <h2 class="text-xl font-semibold text-center text-gray-800">Lupa Kata Sandi</h2>
-            <div class="mb-5">
-                <label for="forgotEmail" class="block text-sm font-medium text-gray-900">Email</label>
-                <input name="email" type="email" id="forgotEmail"
-                    class="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-blue-500"
-                    placeholder="name@flowbite.com" required />
-            </div>
-            <button type="submit"
-                class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 transition-transform transform hover:scale-105 duration-200">Kirim Tautan Pemulihan</button>
-            <div class="text-center">
-                <button id="backToLoginButton" type="button"
-                    class="text-blue-700 hover:text-blue-900 focus:outline-none transition-colors">Kembali ke Login</button>
-            </div>
-        </form>
     </div>
+
+    <!-- Tombol untuk toggle CSS -->
+
 
     <script>
         const toggleFormButton = document.getElementById('toggleFormButton');
         const loginForm = document.getElementById('loginForm');
         const registerForm = document.getElementById('registerForm');
-        const forgotPasswordForm = document.getElementById('forgotPasswordForm');
         const profilePictureInput = document.getElementById('profile_picture');
         const previewImage = document.getElementById('preview');
         const fileNameDisplay = document.getElementById('fileName');
+    
 
         toggleFormButton.addEventListener('click', () => {
             if (loginForm.classList.contains('fade-in')) {
-                // Fade out login form
                 loginForm.classList.replace('fade-in', 'fade-out');
                 setTimeout(() => {
                     loginForm.classList.add('hidden');
                     registerForm.classList.remove('hidden');
                     registerForm.classList.replace('fade-out', 'fade-in');
                 }, 500);
-                toggleFormButton.textContent = 'Sudah punya akun? Yuk masuk';
+                toggleFormButton.innerHTML = '<span class="jump">Sudah punya akun? Yuk masuk</span>';
             } else {
-                // Fade out register form
                 registerForm.classList.replace('fade-in', 'fade-out');
                 setTimeout(() => {
                     registerForm.classList.add('hidden');
                     loginForm.classList.remove('hidden');
                     loginForm.classList.replace('fade-out', 'fade-in');
                 }, 500);
-                toggleFormButton.textContent = 'Belum punya akun? Yuk daftar';
+                toggleFormButton.innerHTML = '<span class="jump">Belum punya akun? Yuk daftar</span>';
             }
-        });
-
-        document.getElementById('forgotPasswordButton').addEventListener('click', () => {
-            // Fade out login form
-            loginForm.classList.replace('fade-in', 'fade-out');
-            setTimeout(() => {
-                loginForm.classList.add('hidden');
-                forgotPasswordForm.classList.remove('hidden');
-                forgotPasswordForm.classList.replace('fade-out', 'fade-in');
-            }, 500);
-        });
-
-        document.getElementById('backToLoginButton').addEventListener('click', () => {
-            // Fade out forgot password form
-            forgotPasswordForm.classList.replace('fade-in', 'fade-out');
-            setTimeout(() => {
-                forgotPasswordForm.classList.add('hidden');
-                loginForm.classList.remove('hidden');
-                loginForm.classList.replace('fade-out', 'fade-in');
-            }, 500);
         });
 
         profilePictureInput.addEventListener('change', (event) => {
@@ -206,6 +209,8 @@
                 fileNameDisplay.textContent = file.name;
             }
         });
+
+    
     </script>
 </body>
 
