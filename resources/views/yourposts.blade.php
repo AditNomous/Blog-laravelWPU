@@ -86,16 +86,21 @@
                             </div>
                             <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><a
                                     href="/posts/{{ $post->slug }}">{{ $post->title }}</a></h2>
-                            <p class="mb-5 font-light text-gray-500 dark:text-gray-400">{{ $post->body }}</p>
+                            <p class="mb-5 font-light text-gray-500 dark:text-gray-400">{!! $post->body !!}</p>
                             <div class="flex justify-between items-center">
                                 <div class="flex items-center space-x-4">
-                                    <img class="w-7 h-7 rounded-full"
-                                        src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png"
-                                        alt="Jese Leos avatar" />
-                                    <a href="/posts?author={{ $post->author->username }}"
-                                        class="font-medium dark:text-white">
-                                        {{ $post->author->name }}
-                                        <a>
+
+                                    @if ($post->author->profile_picture)
+                                    <img src="/profile_pictures/{{ $post->author->profile_picture }}"
+                                        class="w-7 h-7 rounded-full">
+                                @else
+                                    <img src="/profile_pictures/default.png" class="w-7 h-7 rounded-full">
+                                @endif
+                                <a href="/posts?author={{ $post->author->username }}"
+                                    class="font-medium dark:text-white">
+                                    {{ $post->author->name }}
+                                </a>
+                                
                                 </div>
                                 <a href="/posts/{{ $post->slug }}"
                                     class="inline-flex items-center font-medium text-primary-600 dark:text-primary-500 hover:underline">

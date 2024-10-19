@@ -15,7 +15,32 @@
           plugins: 'advlist autolink lists link image charmap print preview anchor',
           toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | image',
           height: 300,
-          menubar: false
+          menubar: false,
+
+        images_upload_url: '{{ route('upload.image') }}',
+        automatic_uploads: true,
+        images_upload_handler: function (blobInfo, success, failure) {
+            let formData = new FormData();
+            formData.append('file', blobInfo.blob(), blobInfo.filename());
+
+            fetch('{{ route('upload.image') }}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.location) {
+                    success(result.location);
+                } else {
+                    failure('Upload failed');
+                }
+            })
+            .catch(() => failure('Upload failed'));
+        }
+
         });
     </script>
 </head>

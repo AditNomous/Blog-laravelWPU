@@ -107,6 +107,8 @@ Route::get('password/reset/{token}', [ResetPasswordController::class, 'showReset
 Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 
 
+// routes/web.php
+Route::post('/upload-image', [PostController::class, 'uploadImage'])->name('upload.image');
 
 
 

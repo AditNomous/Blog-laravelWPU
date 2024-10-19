@@ -127,6 +127,22 @@ class PostController extends Controller
         }
     }
     
+    public function uploadImage(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+    
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('img/postimg'), $fileName);
+    
+            return response()->json(['location' => asset('img/postimg/' . $fileName)]);
+        }
+    
+        return response()->json(['error' => 'File upload failed'], 400);
+    }
 
     public function loadeditpost($id){
         $post = Post::find($id);
